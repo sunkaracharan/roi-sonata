@@ -1,6 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ROIChart } from './ROIChart';
 import { Button } from '@/components/ui/button';
 import { SmoothSlider } from './SmoothSlider';
 import { MetricCard } from './MetricCard';
@@ -64,11 +65,11 @@ export const QuickCalculator = () => {
       inputs: { annualRevenue, annualCloudSpend, numEngineers },
       results: quickCalculations
     };
-    
+
     const savedResults = JSON.parse(localStorage.getItem('roiResults') || '[]');
     savedResults.push(results);
     localStorage.setItem('roiResults', JSON.stringify(savedResults));
-    
+
     alert('Results saved successfully!');
   };
 
@@ -135,13 +136,22 @@ export const QuickCalculator = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="text-center">
+            {/* <div className="text-center">
               <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                 {formatCurrency(quickCalculations.totalAnnualGain)}
               </div>
               <p className="text-slate-400 mt-1">Total Annual Savings</p>
-            </div>
-
+            </div> */}
+            <Card className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 border-slate-700/50 backdrop-blur-sm">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  💎 Total Annual ROI: {formatCurrency(quickCalculations.totalAnnualGain)}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ROIChart data={quickCalculations} />
+              </CardContent>
+            </Card>
             <div className="grid grid-cols-3 gap-4">
               <MetricCard
                 title="ROI"
